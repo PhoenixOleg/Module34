@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentValidation;
 using HomeApi.Contracts.Models.Devices;
+using static HomeApi.Contracts.Validation.ManualValidators;
 
 namespace HomeApi.Contracts.Validation
 {
@@ -20,18 +21,15 @@ namespace HomeApi.Contracts.Validation
             RuleFor(x => x.Manufacturer).NotEmpty();
             RuleFor(x => x.Model).NotEmpty();
             RuleFor(x => x.SerialNumber).NotEmpty();
-            RuleFor(x => x.CurrentVolts).NotEmpty().InclusiveBetween(120, 220); // Проверим, что значение в заданном диапазоне
+            RuleFor(x => x.CurrentVolts)
+                .NotEmpty()
+                .Must(VoltageBeSupported) // Заменил проверку диапазона вольтажа на дискретные значения
+                .WithMessage($"Please choose one of the following values: {string.Join(", ", VoltageValues.ValidVoltage)}");
             RuleFor(x => x.GasUsage).NotNull();
-            RuleFor(x => x.RoomLocation).NotEmpty().Must(BeSupported).WithMessage($"Please choose one of the following locations: {string.Join(", ", Values.ValidRooms)}");
-        }
-        
-        /// <summary>
-        ///  Метод кастомной валидации для свойства location
-        /// </summary>
-        private bool BeSupported(string location)
-        {
-            // Проверим, содержится ли значение в списке допустимых
-            return Values.ValidRooms.Any(e => e == location);
-        }
+            RuleFor(x => x.RoomLocation)
+                .NotEmpty()
+                .Must(RoomBeSupported)
+                .WithMessage($"Please choose one of the following locations: {string.Join(", ", RoomValues.ValidRooms)}");
+        }        
     }
 }

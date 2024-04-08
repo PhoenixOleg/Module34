@@ -99,7 +99,7 @@ namespace HomeApi.Controllers
         }
 
         /// <summary>
-        /// Уделение существующего устройства
+        /// Удаление существующего устройства
         /// </summary>
         /// <param name="id">ID (GUID) устройства</param>
         /// <returns>Http код ответа с описанием</returns>

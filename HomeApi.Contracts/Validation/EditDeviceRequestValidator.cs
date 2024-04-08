@@ -17,7 +17,7 @@ namespace HomeApi.Contracts.Validation
         {
             RuleFor(x => x.NewName).NotEmpty(); 
             RuleFor(x => x.NewRoom).NotEmpty().Must(BeSupported)
-                .WithMessage($"Please choose one of the following locations: {string.Join(", ", Values.ValidRooms)}");
+                .WithMessage($"Please choose one of the following locations: {string.Join(", ", RoomValues.ValidRooms)}");
         }
         
         /// <summary>
@@ -25,7 +25,7 @@ namespace HomeApi.Contracts.Validation
         /// </summary>
         private bool BeSupported(string location)
         {
-            return Values.ValidRooms.Any(e => e == location);
+            return RoomValues.ValidRooms.Any(e => e == location);
         }
     }
 }
