@@ -16,8 +16,8 @@ namespace HomeApi.Controllers
     [Route("[controller]")]
     public class RoomsController : ControllerBase
     {
-        private IRoomRepository _repository;
-        private IMapper _mapper;
+        private readonly IRoomRepository _repository;
+        private readonly IMapper _mapper;
         
         public RoomsController(IRoomRepository repository, IMapper mapper)
         {
@@ -25,7 +25,7 @@ namespace HomeApi.Controllers
             _mapper = mapper;
         }
         
-        //TODO: Задание - добавить метод на получение всех существующих комнат
+        //TODO: Задание - добавить метод на получение всех существующих комнат @@@
         
         /// <summary>
         /// Добавление комнаты

@@ -80,8 +80,12 @@ namespace HomeApi.Data.Repos
             // И если нужно - обновляем устройство
             if (!string.IsNullOrEmpty(query.NewName))
                 device.Name = query.NewName;
+
             if (!string.IsNullOrEmpty(query.NewSerial))
                 device.SerialNumber = query.NewSerial;
+
+            //Размещение не может быть пустым по валидатору
+            device.Location = query.NewLocation;
             
             // Добавляем в базу 
             var entry = _context.Entry(device);

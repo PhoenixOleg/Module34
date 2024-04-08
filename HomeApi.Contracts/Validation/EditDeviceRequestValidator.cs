@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentValidation;
 using HomeApi.Contracts.Models.Devices;
+using static HomeApi.Contracts.Validation.ManualValidators;
 
 namespace HomeApi.Contracts.Validation
 {
@@ -15,17 +16,11 @@ namespace HomeApi.Contracts.Validation
         /// </summary>
         public EditDeviceRequestValidator() 
         {
-            RuleFor(x => x.NewName).NotEmpty(); 
-            RuleFor(x => x.NewRoom).NotEmpty().Must(BeSupported)
+            //RuleFor(x => x.NewName).NotEmpty(); //Убрано условие NotEmpty, т. к. не позволят не обновлять имя девайся
+            RuleFor(x => x.NewLocation)
+                .NotEmpty()
+                .Must(RoomBeSupported)                
                 .WithMessage($"Please choose one of the following locations: {string.Join(", ", RoomValues.ValidRooms)}");
-        }
-        
-        /// <summary>
-        ///  Метод кастомной валидации для свойства location
-        /// </summary>
-        private bool BeSupported(string location)
-        {
-            return RoomValues.ValidRooms.Any(e => e == location);
         }
     }
 }

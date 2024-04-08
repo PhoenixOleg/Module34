@@ -16,9 +16,9 @@ namespace HomeApi.Controllers
     [Route("[controller]")]
     public class DevicesController : ControllerBase
     {
-        private IDeviceRepository _devices;
-        private IRoomRepository _rooms;
-        private IMapper _mapper;
+        private readonly IDeviceRepository _devices;
+        private readonly IRoomRepository _rooms;
+        private readonly IMapper _mapper;
         
         public DevicesController(IDeviceRepository devices, IRoomRepository rooms, IMapper mapper)
         {
@@ -77,9 +77,10 @@ namespace HomeApi.Controllers
             [FromRoute] Guid id,
             [FromBody]  EditDeviceRequest request)
         {
-            var room = await _rooms.GetRoomByName(request.NewRoom);
+         
+            var room = await _rooms.GetRoomByName(request.NewLocation);
             if(room == null)
-                return StatusCode(400, $"Ошибка: Комната {request.NewRoom} не подключена. Сначала подключите комнату!");
+                return StatusCode(400, $"Ошибка: Комната {request.NewLocation} не подключена. Сначала подключите комнату!");
             
             var device = await _devices.GetDeviceById(id);
             if(device == null)
@@ -92,7 +93,7 @@ namespace HomeApi.Controllers
             await _devices.UpdateDevice(
                 device,
                 room,
-                new UpdateDeviceQuery(request.NewName, request.NewSerial)
+                new UpdateDeviceQuery(request.NewLocation, request.NewName, request.NewSerial)
             );
 
             return StatusCode(200, $"Устройство обновлено! Имя - {device.Name}, Серийный номер - {device.SerialNumber},  Комната подключения - {device.Room.Name}");

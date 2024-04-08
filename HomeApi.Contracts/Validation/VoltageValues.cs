@@ -11,7 +11,7 @@ namespace HomeApi.Contracts.Validation
     /// </summary>
     public class VoltageValues
     {
-        public static int[] ValidVoltage = new[]
+        internal static int[] ValidVoltage = new[]
 {
             120,
             220
