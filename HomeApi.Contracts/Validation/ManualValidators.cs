@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace HomeApi.Contracts.Validation
 {
+    /// <summary>
+    /// Статический класс самописных валидаторов
+    /// </summary>
     internal static class ManualValidators
     {
         /// <summary>
